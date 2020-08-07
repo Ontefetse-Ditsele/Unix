@@ -14,7 +14,7 @@ public class DamArrayApp{
    private static String path = "C:/Users/connex/OneDrive/Desktop/Zaio_deliverables/Unix/Question_5/bin/dam_levels.csv";
    private static String nFilePath = "C:/Users/connex/OneDrive/Desktop/Zaio_deliverables/Unix/Question_5/bin/dam_levels.txt";
    
-   private static String[] lineValues;
+   private static String[] lineValues;// row of the files
    private static String line = ""; 
 
    
@@ -28,8 +28,8 @@ public class DamArrayApp{
       
          if(args.length > 0){ printDam(args[0]); }
          else{ printAll(); }
-      
-   
+               
+         
          write.close();
       
       }catch(final FileNotFoundException e){ System.out.println("File does not exist"); }
@@ -50,10 +50,11 @@ public class DamArrayApp{
             
             if(tName.equalsIgnoreCase(oName)){
                if(lineValues.length >= 25){
-                 
-                  write.write("Dam Name: "+damName +"\nFSC: "+lineValues[10]+"\nDam Level: "+lineValues[25]+"\n\n");
-               }  
-            }
+         
+                  write.write("Dam Name: "+damName +" FSC: "+lineValues[10]+" Dam Level: "+lineValues[25]+"\n");
+               }
+               else{ System.out.println("Dam Does not contain Enough Values to display.");}  
+            }else{System.out.println("Dam Not Found.");}
          }
       
       }catch(final IOException e){ System.out.println("Could not read line"); }
@@ -68,7 +69,7 @@ public class DamArrayApp{
                                     
                dam = lineValues[2].replace(" ","");
                if(dam.contains("Dam")){
-                  write.write(lineValues[2] +"   "+lineValues[10]+"   "+lineValues[25]+"\n");
+                  write.write("Dam Name: "+lineValues[2] +" FSC: "+ lineValues[10]+" Dam Level  "+lineValues[25]+"\n");
                }
             } 
          }

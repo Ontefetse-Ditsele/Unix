@@ -1,25 +1,51 @@
-#Ontefetse Ditsele
-#
-#31 July 2020
+# Makefile 
+# Akhil Boddu
 
-JCC = javac
+# A simple Makefile
+# HelloWorld.class: HelloWorld.java
+# javac HelloWorld.java
 
-JFLAGS = -g
+SRCDIR = src
+BINDIR = bin
+DOCDIR = doc
+TESTDIR = test
 
-default: DamArrayApp.class
+JUNIT =  ./gson/gson-2.8.6.jar -sourcepath ./src ./src/$*.java
 
-#
-#By default it will call printAll Method
+
+JAVAC = javac
+JFLAGS = -g -d $(BINDIR) -cp $(BINDIR)
+
+#to check the src and test folders for the .java files
+#also to ensure that class files are in bin 
+vpath %.java $(SRCDIR):$(TESTDIR)
+vpath %.class $(BINDIR)
+
+.SUFFIXES: .java .class
+
+.java.class:
+	$(JAVAC) $(JFLAGS) $<
+
+classes: DamArrayApp.class
+
+default: $(CLASSES)
+
+doc:
+	javadoc -d $(DOCDIR) -cp $(DOCDIR) $(SRCDIR)/*.java
+
+test_classes: DamArrayApp.class
+	      
+junit: test_classes
+	
 DamArrayApp.class: DamArrayApp.java
-			$(JCC)	$(JFLAGS) DamArrayApp.java
-#
-#
-#One of them should print dam not found
-#Test:
-#	$(JCC)	$(JFLAGS) DamArrayApp.java "Pella Dam"
-#	$(JCC)	$(JFLAGS) DamArrayApp.java "Saulspoort Dam"
-#	$(JCC)	$(JFLAGS) DamArrayApp.java "Corana Dam"
-#	$(JCC)	$(JFLAGS) DamArrayApp.java "Covid19 Dam" 
+	javac -d $(BINDIR) -cp $(JUNIT)
+
+	      
+#junit: test_classes
+#	javac -d $(BINDIR) -cp ../junit/junit-4.12.jar -sourcepath ./src $*.java
+#	#java -cp $(BINDIR):$(JUNIT) org.junit.runner.JUnitCore $*.java	
 
 clean:
-		$(RM) *.class
+	rm -f  $(BINDIR)/*.class
+	rm -Rf doc
+	rm -f  $(BINDIR)/*.txt
